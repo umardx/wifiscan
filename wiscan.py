@@ -34,20 +34,20 @@ for line in sys.stdin:
     if ( ssid ):
         ssid_list.append(ssid.group(1))
 
-print ("Wi-Fi spectrum analyzer")
-print ("SSID:", ssid_list)
-print ("Channels:", chan_list)
-print ("Frequencies:", freq_list)
-print ("Signal dBm:", sign_list)
+#print "Wi-Fi spectrum analyzer"
+print "SSID:", ssid_list
+print "Channels:", chan_list
+print "Frequencies:", freq_list
+print "Signal dBm:", sign_list
 
-for i in range(len(freq_list)):
-    freq_x = arange(freq_list[i]-0.011, freq_list[i]+0.011, 0.001)
-    power_y = -100000*(freq_x-(freq_list[i]-0.011))*(freq_x-(freq_list[i]+0.011)) + sign_list[i] -12
-    plot(freq_x, power_y)
+#for i in range(len(freq_list)):
+#    freq_x = arange(freq_list[i]-0.011, freq_list[i]+0.011, 0.001)
+#    power_y = -100000*(freq_x-(freq_list[i]-0.011))*(freq_x-(freq_list[i]+0.011)) + sign_list[i] -12
+#    plot(freq_x, power_y)
 
-xlabel('GHz')
-ylabel('dBm')
-title('Wi-Fi spectrum analyzer')
-grid(True)
-savefig("spectrum.png")
-show()
+#xlabel('GHz')
+#ylabel('dBm')
+#title('Wi-Fi spectrum analyzer')
+#grid(True)
+#savefig("spectrum.png")
+#show()
