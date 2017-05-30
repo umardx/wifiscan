@@ -1,17 +1,23 @@
 #!/usr/bin/python
+import firebase
+import datetime
+import json
 import sys
 import re
-#from pylab import *
+
+url = 'https://wifiscan-8076f.firebaseio.com'
 
 chan_list = []
 freq_list = []
 sign_list = []
 ssid_list = []
+maca_list = []
 
 chan_re = re.compile(r'Channel:([0-9]+)')
 freq_re = re.compile(r'Frequency:([0-9.]+)')
 sign_re = re.compile(r'Signal level=([0-9-]+)')
 ssid_re = re.compile(r'ESSID:"(.*?)"')
+maca_re = re.compile(r'Address: ([0-9A-Fa-f]+:[0-9A-Fa-f]+:[0-9A-Fa-f]+:[0-9A-Fa-f]+:[0-9A-Fa-f]+:[0-9A-Fa-f]+)')
 
 for line in sys.stdin:
     chan_match = chan_re.match(line)
@@ -34,20 +40,17 @@ for line in sys.stdin:
     if ( ssid ):
         ssid_list.append(ssid.group(1))
 
-#print "Wi-Fi spectrum analyzer"
-print "SSID:", ssid_list
-print "Channels:", chan_list
-print "Frequencies:", freq_list
-print "Signal dBm:", sign_list
+    maca_match = maca_re.match(line)
+    maca = maca_re.search(line)
+    if ( maca ):
+        maca_list.append(maca.group(1))
 
-#for i in range(len(freq_list)):
-#    freq_x = arange(freq_list[i]-0.011, freq_list[i]+0.011, 0.001)
-#    power_y = -100000*(freq_x-(freq_list[i]-0.011))*(freq_x-(freq_list[i]+0.011)) + sign_list[i] -12
-#    plot(freq_x, power_y)
+ts = datetime.datetime.now()
+data = {"timestamp":ts}
+for i in range(0,(len(ssid_list))):
+    data.update({i:{'SSID':ssid_list[i], 'Channel': chan_list[i]}})
 
-#xlabel('GHz')
-#ylabel('dBm')
-#title('Wi-Fi spectrum analyzer')
-#grid(True)
-#savefig("spectrum.png")
-#show()
+
+firebase = firebase.FirebaseApplication(url, None)
+
+res = firebase.post("/APlist", data)
