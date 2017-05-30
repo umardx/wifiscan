@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import sys
 import re
-from pylab import *
+#from pylab import *
 
 chan_list = []
 freq_list = []
