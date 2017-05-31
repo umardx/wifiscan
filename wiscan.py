@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import firebase
 import datetime
 import json
@@ -6,6 +6,7 @@ import sys
 import re
 
 url = 'https://wifiscan-8076f.firebaseio.com'
+ts = datetime.datetime.now()
 
 chan_list = []
 freq_list = []
@@ -45,7 +46,6 @@ for line in sys.stdin:
     if ( maca ):
         maca_list.append(maca.group(1))
 
-ts = datetime.datetime.now()
 data = {"timestamp":ts}
 for i in range(0,(len(ssid_list))):
     data.update({
@@ -56,12 +56,8 @@ for i in range(0,(len(ssid_list))):
         'Frequency':freq_list[i],
         'Signal':sign_list[i]
         }
-    }
-)
+    })
 
 
 firebase = firebase.FirebaseApplication(url, None)
-
 res = firebase.post("/APlist", data)
-
-print maca_list
