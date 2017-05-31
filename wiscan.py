@@ -48,9 +48,20 @@ for line in sys.stdin:
 ts = datetime.datetime.now()
 data = {"timestamp":ts}
 for i in range(0,(len(ssid_list))):
-    data.update({i:{'SSID':ssid_list[i], 'Channel': chan_list[i]}})
+    data.update({
+        i:{
+        'SSID':ssid_list[i],
+        'MAC':maca_list[i],
+        'Channel':chan_list[i],
+        'Frequency':freq_list[i],
+        'Signal':sign_list[i]
+        }
+    }
+)
 
 
 firebase = firebase.FirebaseApplication(url, None)
 
 res = firebase.post("/APlist", data)
+
+print maca_list
