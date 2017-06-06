@@ -92,11 +92,14 @@ hn = socket.gethostname()
 
 data = {
 'Timestamp': ts,
-'Hostname': hn,
-'Address': ip,
+'Received_from':
+    {
+    'Hostname': hn,
+    'Address': ip
+    }
 }
 
-es = Elasticsearch(timeout=480)
+es = Elasticsearch(timeout=5000)
 for i in range(0,(len(ssid_list))):
     data.update({
         'SSID':ssid_list[i],
