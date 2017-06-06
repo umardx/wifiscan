@@ -1,21 +1,9 @@
 #!/usr/bin/env python
 from elasticsearch import Elasticsearch
 import datetime
-import socket
-import fcntl
-import struct
-import json
-import time
+import commands
 import sys
 import re
-
-def get_ip_address(ifname):
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    return socket.inet_ntoa(fcntl.ioctl(
-        s.fileno(),
-        0x8915,  # SIOCGIFADDR
-        struct.pack('256s', ifname[:15])
-    )[20:24])
 
 chan_list = []
 freq_list = []
@@ -85,13 +73,13 @@ for line in sys.stdin:
     if ( beac ):
         beac_list.append(int(beac.group(1)))
 
-index = "wifiscan-" + time.strftime("%Y.%m.%d")
-ts = datetime.datetime.now()
-ip = get_ip_address("wlan0")
-hn = socket.gethostname()
+now = datetime.datetime.now()
+ip = commands.getoutput('ifconfig eth0 | grep "inet addr" | cut -d ":" -f 2 | cut -d " " -f 1').split()
+hn = commands.getoutput('hostname').split()
+index = "wifiscan-%s.%s.%s" %(now.year, now.month, now.day)
 
 data = {
-'Timestamp': ts,
+'Timestamp': now,
 'Received_from':
     {
     'Hostname': hn,
