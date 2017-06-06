@@ -87,7 +87,13 @@ data = {
     }
 }
 
-es = Elasticsearch(timeout=5000)
+es = Elasticsearch(
+    [{'host': 'localhost', 'port': 9200}],
+    sniff_on_start=True,
+    sniff_on_connection_fail=True,
+    sniffer_timeout=60
+    )
+
 for i in range(0,(len(ssid_list))):
     data.update({
         'SSID':ssid_list[i],
