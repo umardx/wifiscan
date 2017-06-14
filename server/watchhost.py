@@ -18,8 +18,6 @@ def get_loop():
   threading.Timer(1.0, get_loop).start()
   get_host(url, username, password)
 
-printit()
-
 def get_host(url, username, password):
     global data
     try:
