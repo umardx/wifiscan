@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import threading
 import commands
 import requests
 import json
@@ -11,6 +12,13 @@ file = "/etc/hosts"
 
 name_list = []
 addr_list = []
+
+
+def get_loop():
+  threading.Timer(1.0, get_loop).start()
+  get_host(url, username, password)
+
+printit()
 
 def get_host(url, username, password):
     global data
@@ -49,4 +57,5 @@ def add_host(data):
     f.write("\n#lHost")
     f.close()
 
-get_host(url, username, password)
+
+get_loop()
