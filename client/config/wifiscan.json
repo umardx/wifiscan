@@ -1,0 +1,10 @@
+{
+"service": {
+  "name": "wifiscan",
+  "tags": ["wifiscan", "status"],
+  "check": {
+    "script": "/bin/systemctl status wifiscan",
+    "interval": "30s"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+	"ui": true,
+	"datacenter": "dc1",
+	"data_dir": "/var/consul",
+	"encrypt": "EpRqe2UkcXs+Iz6/aBrhpg==",
+	"log_level": "INFO",
+	"enable_syslog": true,
+	"enable_debug": true,
+	"node_name": "pi1",
+	"server": false,
+	"leave_on_terminate": true,
+	"rejoin_after_leave": true,
+	"retry_join": [
+	"node1"
+	]
+ }
+
