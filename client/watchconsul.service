@@ -8,7 +8,7 @@ Type=idle
 User=root
 Group=root
 PIDFile=/var/run/watchconsul.pid
-ExecStart=/etc/consul.d/watchconsul
+ExecStart=/etc/consul.d/watchconsul.sh
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 

@@ -7,7 +7,7 @@
         "log_level": "INFO",
         "enable_syslog": true,
         "enable_debug": true,
-        "node_name": "Consulnode1",
+        "node_name": "consulnode1.bkl",
         "server": true,
         "bootstrap_expect": 1,
         "leave_on_terminate": false,
