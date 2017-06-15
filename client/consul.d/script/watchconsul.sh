@@ -10,14 +10,14 @@ consul_setup() {
   oldip=$(/bin/cat /var/consul/oldip.tmp)
 
   if [ "$oldip" != "$newip" ] || ( ! /bin/systemctl status consul > /dev/null 2>&1 ); then
-     /usr/local/bin/consul leave > /dev/null 2>&1
-     /bin/systemctl restart consul.service > /dev/null 2>&1
+     echo "GANTI $oldip ke $newip" >> /root/gantiip.log
+     /usr/local/bin/consul leave > /dev/null 2>&1 &&
+     /bin/systemctl restart consul.service > /dev/null 2>&1 &&
      echo "$newip" > /var/consul/oldip.tmp
      echo "$oldip -> $newip : Consul Restarted."
   fi
 }
 
 while [ true ]; do
-  consul_setup
-  sleep 1
+  consul_setup && sleep 1
 done
