@@ -6,7 +6,7 @@ echo $$ > /var/run/watchconsul.pid
 
 consul_setup() {
 
-  newip=$(/sbin/ifconfig wlan00 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1)
+  newip=$(/sbin/ifconfig wlan0 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1)
   oldip=$(/bin/cat /var/consul/oldip.tmp)
 
   if [ "$oldip" != "$newip" ] && ( /bin/systemctl status consul > /dev/null 2>&1 ) && [ "$newip" != "" ]; then
