@@ -9,7 +9,7 @@ consul_setup() {
   newip=$(/sbin/ifconfig wlan00 | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1)
   oldip=$(/bin/cat /var/consul/oldip.tmp)
 
-  if [ "$oldip" != "$newip" ] || ( ! /bin/systemctl status consul > /dev/null 2>&1 ); then
+  if [ "$oldip" != "$newip" ] && ( /bin/systemctl status consul > /dev/null 2>&1 ); then
      echo "GANTI $oldip ke $newip" >> /root/gantiip.log
      /usr/local/bin/consul leave > /dev/null 2>&1 &&
      /bin/systemctl restart consul.service > /dev/null 2>&1 &&
@@ -18,6 +18,15 @@ consul_setup() {
   fi
 }
 
+setup_wait() {
+  up=$(awk '{print $1}' /proc/uptime) && up=${up%.*}
+
+  if [ $up -le 60 ]; then
+    continue
+  fi
+}
+
 while [ true ]; do
+  setup_wait
   consul_setup && sleep 1
 done
