@@ -1,5 +1,5 @@
 [Unit]
-Description=Watch Consul
+Description=Watch Host
 Requires=network-online.target
 After=network-online.target consul.service
 
@@ -7,10 +7,11 @@ After=network-online.target consul.service
 Type=idle
 User=root
 Group=root
-PIDFile=/var/run/watchconsul.pid
-ExecStart=/etc/consul.d/script/watchconsul.sh
+PIDFile=/var/run/watchhost.pid
+ExecStart=/usr/bin/python /etc/consul.d/script/watchhost.py
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
 [Install]
 WantedBy=multi-user.target
+
