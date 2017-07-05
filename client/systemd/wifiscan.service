@@ -1,0 +1,16 @@
+[Unit]
+Description=WiFi Scan
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=idle
+User=root
+Group=root
+Restart=on-failure
+ExecStart=/home/umar/wifiscan/client/py-scanner/scan.sh
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

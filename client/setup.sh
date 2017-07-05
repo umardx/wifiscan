@@ -1,6 +1,33 @@
 #!/bin/bash
 WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-#echo $WORKDIR
+
+setWiFiScan() {
+	# Create infping.service
+cat <<'EOF' > $WORKDIR/systemd/wifiscan.service
+[Unit]
+Description=WiFi Scan
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+Type=idle
+User=root
+Group=root
+Restart=on-failure
+ExecStart=$WORKDIR/py-scanner/startscan.sh
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target
+EOF
+	sed -i "s|ExecStart.*|ExecStart=$WORKDIR/py-scanner/startscan.sh|g" $WORKDIR/systemd/wifiscan.service
+	cp $WORKDIR/systemd/wifiscan.service /etc/systemd/system/
+	systemctl daemon-reload
+	systemctl enable wifiscan.service
+	systemctl start wifiscan.service
+}
+
 setHostname() {
 	oldhost=$(cat /etc/hostname)
 	echo "Existing hostname is $oldhost"
@@ -35,7 +62,7 @@ setConsul() {
 	systemctl start watchconsul.service
 }
 
-setupWiFi() {
+setWPA() {
 	# Copying wpa_supplicant configuration
 	cp $WORKDIR/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
 }
@@ -45,6 +72,8 @@ if [[ $EUID -ne 0 ]]; then
 	echo "You must be a root" 2>&1
 	exit 1
 else
+	setWPA
 	setHostname
 	setConsul
+	setWiFiScan
 fi
