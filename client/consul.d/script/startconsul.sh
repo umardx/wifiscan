@@ -7,5 +7,6 @@ if [ ${devip} =="" ]; then
 fi
 
 cpuid="$(cat /proc/cpuinfo | grep Serial | cut -d ' ' -f 2 | tail -c9)"
-newhost="${cpuid}$(ifconfig | grep wlan0 | awk '{print $NF}' | sed 's/://g' | tr '[:upper:]' '[:lower:]')"
-/usr/local/bin/consul agent -config-dir=/etc/consul.d/client -bind=${devip} -pid-file=/var/run/consul.pid
+node="$(ifconfig | grep wlan0 | awk '{print $NF}' | sed 's/://g' | tr '[:upper:]' '[:lower:]')${cpuid}"
+
+/usr/local/bin/consul agent -config-dir=/etc/consul.d/client -bind=${devip} -node=${node} -pid-file=/var/run/consul.pid
