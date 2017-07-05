@@ -1,5 +1,4 @@
 #!/bin/bash
-node="192.168.114.30"
 WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #echo $WORKDIR
 setHostname() {
@@ -25,10 +24,6 @@ setConsul() {
 	rm consul.zip
 	mkdir -p /etc/consul.d/{client,script}
 	mkdir /var/consul
-
-	# Add host
-	echo "# Consul node address" >> /etc/hosts
-	echo "$node1 node1 kibana1.dx consul1.dx elastic1.dx" >> /etc/hosts
 
 	# Add systemd
 	cp $WORKDIR/systemd/consul.service /etc/systemd/system/
