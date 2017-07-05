@@ -1,13 +1,7 @@
 #!/bin/bash
 #set -x
-
-# Check disk space
-diskUse=$( df -H | grep root | awk '{ print $5}' | cut -d'%' -f1 )
-
-while(( $diskUse < 90 )) # limit disk use under 30%
-do
-  diskUse=$(df -H | grep root | awk '{ print $5}' | cut -d'%' -f1)
-  echo "Disk Use" $diskUse "%"
-  ./aplist.sh
-  sleep 5    # for command and control
+WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+while [[ true ]]; do
+	/sbin/iwlist wlan0 scan | $WORKDIR/wiscan.py
+	
 done
