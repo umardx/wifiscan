@@ -2,6 +2,7 @@
 WORKDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 setWiFiScan() {
+	# Install dependency
 	# Create infping.service
 cat <<'EOF' > $WORKDIR/systemd/wifiscan.service
 [Unit]
@@ -44,13 +45,11 @@ setHostname() {
 
 setConsul() {
 	# Install consul arm64
-	apt-get update
-	apt-get install -y wget unzip
 	wget -O consul.zip "https://releases.hashicorp.com/consul/0.8.5/consul_0.8.5_linux_arm64.zip"
 	unzip -qq consul.zip -d /usr/local/bin/
 	rm consul.zip
 	mkdir -p /etc/consul.d/{client,script}
-	mkdir /var/consul
+	mkdir -p /var/consul
 
 	# Add systemd
 	cp $WORKDIR/systemd/consul.service /etc/systemd/system/
@@ -72,6 +71,10 @@ if [[ $EUID -ne 0 ]]; then
 	echo "You must be a root" 2>&1
 	exit 1
 else
+	apt-get update
+	apt-get install -y wget unzip python-pip
+	pip install elasticsearch
+	
 	setWPA
 	setHostname
 	setConsul

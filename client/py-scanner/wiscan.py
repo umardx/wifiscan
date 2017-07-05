@@ -10,8 +10,8 @@ dat = datetime.datetime.now()
 ip = commands.getoutput('ifconfig wlan0 | grep "inet addr" | cut -d ":" -f 2 | cut -d " " -f 1').split()
 hn = commands.getoutput('hostname').split()
 
-host = "elastic1.dx"
-port = 80
+host = "192.168.114.30"
+port = 9200
 index = "wifiscan-%s.%s.%s" %(dat.year, dat.month, dat.day)
 
 chan_list = []
