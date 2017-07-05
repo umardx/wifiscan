@@ -23,7 +23,7 @@ KillSignal=SIGINT
 WantedBy=multi-user.target
 EOF
 	sed -i "s|ExecStart.*|ExecStart=$WORKDIR/py-scanner/startscan.sh|g" $WORKDIR/systemd/wifiscan.service
-	cp $WORKDIR/systemd/wifiscan.service /etc/systemd/system/
+	mv $WORKDIR/systemd/wifiscan.service /etc/systemd/system/wifiscan.service
 	systemctl daemon-reload
 	systemctl enable wifiscan.service
 	systemctl start wifiscan.service
