@@ -5,6 +5,8 @@ After=network-online.target dhcpd.service
 
 [Service]
 Type=idle
+User=root
+Group=root
 PIDFile=/var/run/consul.pid
 ExecStartPre=/usr/local/bin/consul configtest -config-dir=/etc/consul.d/client
 ExecStart=/usr/local/bin/consul agent -config-dir=/etc/consul.d/client -pid-file=/var/run/consul.pid
