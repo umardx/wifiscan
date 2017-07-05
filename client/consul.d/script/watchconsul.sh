@@ -22,6 +22,7 @@ wifi_setup() {
   if (/sbin/ifconfig $dev | grep "inet addr" >/dev/null 2>&1) && (ping -c1 8.8.8.8 >/dev/null 2>&1); then
     sleep 1
   else
+    echo "Restart networking"
     /bin/systemctl restart networking && /sbin/dhclient $dev && sleep 15
   fi
 }
@@ -36,5 +37,7 @@ setup_wait() {
 
 while [ true ]; do
   setup_wait
-  wifi_setup && consul_setup && sleep 1
+  wifi_setup
+  consul_setup
+  sleep 1
 done

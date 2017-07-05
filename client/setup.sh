@@ -40,6 +40,10 @@ setConsul() {
 	systemctl start watchconsul.service
 }
 
+setupWiFi() {
+	# Copying wpa_supplicant configuration
+	cp $WORKDIR/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+}
 # MAIN
 # Set hostname
 if [[ $EUID -ne 0 ]]; then
