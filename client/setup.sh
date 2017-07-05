@@ -44,7 +44,7 @@ setHostname() {
 }
 
 setConsul() {
-	# Install consul arm64
+	# Install consul arm
 	wget -O consul.zip "https://releases.hashicorp.com/consul/0.8.5/consul_0.8.5_linux_arm.zip"
 	unzip -qq consul.zip -d /usr/local/bin/
 	rm consul.zip
