@@ -1,7 +1,7 @@
 #!/bin/bash
 dev="wlan0"
 devip=$(/sbin/ifconfig ${dev} | grep "inet addr" | cut -d ':' -f 2 | cut -d ' ' -f 1)
-if [ ${devip} =="" ]; then
+if [ ${devip} == "" ]; then
   echo "Can't get an IP for ${dev}, maybe ${dev} down"
   exit 1
 fi
