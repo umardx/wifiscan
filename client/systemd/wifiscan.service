@@ -8,6 +8,7 @@ Type=idle
 User=root
 Group=root
 Restart=on-failure
+PIDFile=/var/run/wifiscan.pid
 ExecStart=/home/umar/wifiscan/client/py-scanner/scan.sh
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
