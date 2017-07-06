@@ -45,7 +45,7 @@ setHostname() {
 
 setConsul() {
 	# Install consul arm
-	wget -O consul.zip "https://releases.hashicorp.com/consul/0.8.5/consul_0.8.5_linux_arm.zip"
+	wget -qqO consul.zip "https://releases.hashicorp.com/consul/0.8.5/consul_0.8.5_linux_arm.zip"
 	unzip -qqo consul.zip -d /usr/local/bin/
 	rm consul.zip
 	mkdir -p /etc/consul.d/
@@ -73,8 +73,8 @@ if [[ $EUID -ne 0 ]]; then
 	echo "You must be a root" 2>&1
 	exit 1
 else
-	apt-get update
-	apt-get install -y wget unzip python-pip
+	apt-get -qq update
+	apt-get install -yqq wget unzip python-pip
 	pip install elasticsearch
 
 	setWPA
