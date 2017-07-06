@@ -73,6 +73,7 @@ wpa_passphrase=$PASS
 bridge=br0
 EOF
 sed -i "s|ssid.*|ssid=$SSID|g" ./hostapd.conf
+sed -i "s|wpa_passphrase.*|wpa_passphrase=$PASS|g" ./hostapd.conf
 sudo mv ./hostapd.conf /etc/hostapd/hostapd.conf
 
 sed -i '/#DAEMON_CONF=""/c\DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd
