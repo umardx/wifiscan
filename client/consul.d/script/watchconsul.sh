@@ -10,20 +10,21 @@ consul_setup() {
   oldip=$(/bin/cat /var/consul/oldip.tmp)
 
   if [ "$oldip" != "$newip" ] && ( /bin/systemctl status consul > /dev/null 2>&1 ) && [ "$newip" != "" ]; then
-     /usr/local/bin/consul leave > /dev/null 2>&1 &&
-     /bin/systemctl restart consul.service > /dev/null 2>&1 &&
+     /usr/local/bin/consul leave > /dev/null 2>&1
+     /bin/systemctl restart consul.service > /dev/null 2>&1
      echo "$newip" > /var/consul/oldip.tmp
-     echo "$oldip -> $newip : Consul Restarted."
+     status="${status}|consul-restart"
+     sleep 5
   fi
 }
 
 wifi_setup() {
-  if (/sbin/ifconfig $dev | grep "inet addr" >/dev/null 2>&1) && (nc -vz 8.8.8.8 53 >/dev/null 2>&1); then
-    :
-  else
-    echo "Restart networking"
-    /bin/systemctl restart networking > /dev/null 2>&1 && /sbin/dhclient $dev > /dev/null 2>&1
-    sleep 10
+  if (nc -vz 8.8.8.8 53 >/dev/null 2>&1) || (/sbin/ifdown ${dev} && /sbin/ifup ${dev} && sleep 8 && status="${status}|ifrestart ${dev}"); then
+    if [ $(cat /sys/class/net/${dev}/operstate) == "up" ] || (/sbin/ifup ${dev} && sleep 8 && status="${status}|ifup ${dev}"); then
+      if (/sbin/ifconfig $dev | grep "inet addr" >/dev/null 2>&1) || (/sbin/ifdown ${dev} && /sbin/ifup ${dev} && sleep 8 && status="${status}|ifrestart ${dev}"); then
+        :
+      fi
+    fi
   fi
 }
 
@@ -36,8 +37,12 @@ setup_wait() {
 }
 
 while [ true ]; do
+  status=""
   setup_wait
   wifi_setup
   consul_setup
-  sleep 5
+  if [ ${#status} -ne "0" ]; then
+    echo $status
+  fi
+  sleep 1
 done
