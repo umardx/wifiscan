@@ -26,7 +26,7 @@ EOF
 	mv $WORKDIR/systemd/wifiscan.service /etc/systemd/system/wifiscan.service
 	systemctl daemon-reload
 	systemctl enable wifiscan.service
-	systemctl start wifiscan.service
+	systemctl restart wifiscan.service
 }
 
 setHostname() {
@@ -58,9 +58,9 @@ setConsul() {
 	cp $WORKDIR/systemd/watchconsul.service /etc/systemd/system/
 	systemctl daemon-reload
 	systemctl enable consul.service
-	systemctl start consul.service
+	systemctl restart consul.service
 	systemctl enable watchconsul.service
-	systemctl start watchconsul.service
+	systemctl restart watchconsul.service
 }
 
 setWPA() {
