@@ -14,16 +14,16 @@ while true; do
     esac
 done
 
-echo "[ENTER] SSID (default:${SSID}):"
+echo "[ENTER] SSID / default:${SSID} (min.8 char):"
 read TSSID
-echo "[ENTER] Password (default:${PASS}):"
+echo "[ENTER] Password / default:${PASS} (min.8 char):"
 read TPASS
 
-if [ ${#TSSID} != "0" ]; then
+if [ ${#TSSID} != "0" ] && [  ${#TSSID} -ge 0 ]; then
 	SSID="${TSSID}"
 fi
 
-if [ ${#TPASS} != "0" ]; then
+if [ ${#TPASS} != "0" ] && [  ${#TPASS} -ge 0 ]; then
 	PASS="${TPASS}"
 fi
 
