@@ -19,18 +19,12 @@ consul_setup() {
 }
 
 wifi_setup() {
-  if (nc -vz 8.8.8.8 53 >/dev/null 2>&1); then
-    if [ $(cat /sys/class/net/${dev}/operstate) == "up" ]; then
-      if (/sbin/ifconfig $dev | grep "inet addr" >/dev/null 2>&1); then
-        :
-      else
-        /sbin/ifdown ${dev} && /sbin/ifup ${dev} && sleep 8 && status="${status}|ifrestart ${dev}"
-      fi
-    else
-      /sbin/ifup ${dev} && sleep 8 && status="${status}|ifup ${dev}"
-    fi
+  if (nc -vz 8.8.8.8 53 >/dev/null 2>&1) \
+    && [ $(cat /sys/class/net/${dev}/operstate) == "up" ] \
+    && (/sbin/ifconfig $dev | grep "inet addr" >/dev/null 2>&1); then
+    :
   else
-    /sbin/ifdown ${dev} && /sbin/ifup ${dev} && sleep 8 && status="${status}|ifrestart ${dev}"
+    /sbin/ifdown ${dev} && /sbin/ifup ${dev} && sleep 5 && status="${status}|ifrestart ${dev}"
   fi
 }
 
