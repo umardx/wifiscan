@@ -1,4 +1,5 @@
 #/bin/bash
+[[ `id -u` -eq 0 ]] || { echo "Must be root to run script"; exit 1; }
 SSID="WiFiScan"
 PASS="KolakSegarMantap"
 
