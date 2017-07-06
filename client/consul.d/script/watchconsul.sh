@@ -44,5 +44,5 @@ while [ true ]; do
   if [ ${#status} -ne "0" ]; then
     echo $status
   fi
-  sleep 5
+  sleep 4
 done
