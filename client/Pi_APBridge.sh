@@ -71,7 +71,7 @@ wpa_passphrase=$PASS
 # This line ask hostapd to add wlan0 to the bridge br0
 bridge=br0
 EOF
-sed -i "s|ssid.*|ssid=$SSID|g" $WORKDIR/systemd/wifiscan.service
+sed -i "s|ssid.*|ssid=$SSID|g" ./hostapd.conf
 sudo mv ./hostapd.conf /etc/hostapd/hostapd.conf
 
 sed -i '/#DAEMON_CONF=""/c\DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd
