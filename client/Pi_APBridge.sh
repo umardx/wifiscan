@@ -8,7 +8,7 @@ echo "- /etc/hostapd/hostapd.conf"
 while true; do
     read -p "$* [y/n]: " yn
     case $yn in
-        [Yy]*) return 0  ;;  
+        [Yy]*) break  ;;  
         [Nn]*) echo "Aborted" ; exit 1 ;;
     esac
 done
@@ -71,7 +71,7 @@ wpa_passphrase=$PASS
 # This line ask hostapd to add wlan0 to the bridge br0
 bridge=br0
 EOF
-
+sed -i "s|ssid.*|ssid=$SSID|g" $WORKDIR/systemd/wifiscan.service
 sudo mv ./hostapd.conf /etc/hostapd/hostapd.conf
 
 sed -i '/#DAEMON_CONF=""/c\DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd
@@ -80,4 +80,5 @@ echo "========================="
 echo "WiFi Configuration done!"
 echo "SSID : ${SSID}"
 echo "Password : ${PASS}"
+echo "Please reboot! (#reboot)"
 echo "========================="
