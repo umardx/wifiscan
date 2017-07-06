@@ -73,7 +73,7 @@ if [[ $EUID -ne 0 ]]; then
 	echo "You must be a root" 2>&1
 	exit 1
 else
-	apt-get -qq update
+	apt-get update
 	apt-get install -yqq wget unzip python-pip
 	pip install elasticsearch
 	setWPA
