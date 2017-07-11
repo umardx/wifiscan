@@ -14,6 +14,11 @@ host = "192.168.114.30"
 port = 9200
 index = "wifiscan-%s.%s.%s" %(dat.year, dat.month, dat.day)
 
+username = "a"
+password = "a"
+timeout = 10
+max_retries = 10
+
 chan_list = []
 freq_list = []
 sign_list = []
@@ -94,9 +99,9 @@ def send_data():
 	es = Elasticsearch(
 	    [host],
 	    port=port,
-	    http_auth=('a', 'a'),
-	    timeout=5,
-	    max_retries=4
+	    http_auth=(username, password),
+	    timeout=timeout,
+	    max_retries=max_retries
 	    
 	    )
 
@@ -112,13 +117,13 @@ def send_data():
 	        'Last Beacon (ms ago)':beac_list[i]
 	    })
 	    res = es.index(index=index, doc_type='scanlog', body=data)
-	print("%d list sent" % (len(ssid_list)))
 
 
 filt_data()
 
 if reachability():
 	send_data()
+	print("%d list sent" % (len(ssid_list)))
 else:
 	print("Host Unreachable: exit()")
 	exit()
