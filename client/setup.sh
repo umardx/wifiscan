@@ -82,6 +82,6 @@ else
 	pip install elasticsearch
 	setWPA
 	setHostname
-	setConsul
+	hash consul || setConsul
 	setWiFiScan
 fi
