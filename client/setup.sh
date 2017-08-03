@@ -26,6 +26,7 @@ EOF
 	mv $WORKDIR/systemd/wifiscan.service /etc/systemd/system/wifiscan.service
 	systemctl daemon-reload
 	systemctl enable wifiscan.service
+	echo "Restart wifiscan"
 	systemctl restart wifiscan.service
 }
 
@@ -45,6 +46,7 @@ setHostname() {
 
 setConsul() {
 	# Install consul arm
+	echo "Installing Consul"
 	wget -qqO consul.zip "https://releases.hashicorp.com/consul/0.8.5/consul_0.8.5_linux_arm.zip"
 	unzip -qqo consul.zip -d /usr/local/bin/
 	rm consul.zip
@@ -58,8 +60,10 @@ setConsul() {
 	cp $WORKDIR/systemd/watchconsul.service /etc/systemd/system/
 	systemctl daemon-reload
 	systemctl enable consul.service
+	echo "Restart consul"
 	systemctl restart consul.service
 	systemctl enable watchconsul.service
+	echo "Restart watchconsul"
 	systemctl restart watchconsul.service
 }
 
